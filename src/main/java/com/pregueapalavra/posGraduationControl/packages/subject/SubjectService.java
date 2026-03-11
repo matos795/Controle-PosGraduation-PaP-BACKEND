@@ -1,4 +1,4 @@
-package com.pregueapalavra.posGraduationControl.subject;
+package com.pregueapalavra.posGraduationControl.packages.subject;
 
 import java.util.List;
 
@@ -9,10 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.pregueapalavra.posGraduationControl.exception.exceptions.DatabaseException;
 import com.pregueapalavra.posGraduationControl.exception.exceptions.ResourceNotFoundException;
 import com.pregueapalavra.posGraduationControl.exception.exceptions.subject.NameAlreadyExistsException;
-import com.pregueapalavra.posGraduationControl.subject.dto.CreateSubjectRequest;
-import com.pregueapalavra.posGraduationControl.subject.dto.SubjectResponse;
-import com.pregueapalavra.posGraduationControl.subject.dto.UpdateSubjectRequest;
-import com.pregueapalavra.posGraduationControl.subject.mapper.SubjectMapper;
+import com.pregueapalavra.posGraduationControl.packages.subject.dto.CreateSubjectRequest;
+import com.pregueapalavra.posGraduationControl.packages.subject.dto.SubjectResponse;
+import com.pregueapalavra.posGraduationControl.packages.subject.dto.UpdateSubjectRequest;
+import com.pregueapalavra.posGraduationControl.packages.subject.mapper.SubjectMapper;
 
 import lombok.RequiredArgsConstructor;
 

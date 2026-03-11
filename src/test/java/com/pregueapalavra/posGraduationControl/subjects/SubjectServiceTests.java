@@ -24,11 +24,11 @@ import org.springframework.dao.DataIntegrityViolationException;
 import com.pregueapalavra.posGraduationControl.exception.exceptions.DatabaseException;
 import com.pregueapalavra.posGraduationControl.exception.exceptions.ResourceNotFoundException;
 import com.pregueapalavra.posGraduationControl.exception.exceptions.subject.NameAlreadyExistsException;
-import com.pregueapalavra.posGraduationControl.subject.SubjectEntity;
-import com.pregueapalavra.posGraduationControl.subject.SubjectRepository;
-import com.pregueapalavra.posGraduationControl.subject.SubjectService;
-import com.pregueapalavra.posGraduationControl.subject.dto.SubjectResponse;
-import com.pregueapalavra.posGraduationControl.subject.dto.UpdateSubjectRequest;
+import com.pregueapalavra.posGraduationControl.packages.subject.SubjectEntity;
+import com.pregueapalavra.posGraduationControl.packages.subject.SubjectRepository;
+import com.pregueapalavra.posGraduationControl.packages.subject.SubjectService;
+import com.pregueapalavra.posGraduationControl.packages.subject.dto.SubjectResponse;
+import com.pregueapalavra.posGraduationControl.packages.subject.dto.UpdateSubjectRequest;
 import com.pregueapalavra.posGraduationControl.subjects.factory.CreateSubjectTestFactory;
 import com.pregueapalavra.posGraduationControl.subjects.factory.UpdateSubjectTestFactory;
 

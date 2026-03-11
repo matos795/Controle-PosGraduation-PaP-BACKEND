@@ -1,9 +1,9 @@
-package com.pregueapalavra.posGraduationControl.subject.mapper;
+package com.pregueapalavra.posGraduationControl.packages.subject.mapper;
 
-import com.pregueapalavra.posGraduationControl.subject.SubjectEntity;
-import com.pregueapalavra.posGraduationControl.subject.dto.CreateSubjectRequest;
-import com.pregueapalavra.posGraduationControl.subject.dto.SubjectResponse;
-import com.pregueapalavra.posGraduationControl.subject.dto.UpdateSubjectRequest;
+import com.pregueapalavra.posGraduationControl.packages.subject.SubjectEntity;
+import com.pregueapalavra.posGraduationControl.packages.subject.dto.CreateSubjectRequest;
+import com.pregueapalavra.posGraduationControl.packages.subject.dto.SubjectResponse;
+import com.pregueapalavra.posGraduationControl.packages.subject.dto.UpdateSubjectRequest;
 
 public class SubjectMapper {
 

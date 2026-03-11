@@ -1,8 +1,8 @@
 package com.pregueapalavra.posGraduationControl.student.factory;
 
-import com.pregueapalavra.posGraduationControl.student.StudentEntity;
-import com.pregueapalavra.posGraduationControl.student.dto.CreateStudentRequest;
-import com.pregueapalavra.posGraduationControl.student.dto.StudentResponse;
+import com.pregueapalavra.posGraduationControl.packages.student.StudentEntity;
+import com.pregueapalavra.posGraduationControl.packages.student.dto.CreateStudentRequest;
+import com.pregueapalavra.posGraduationControl.packages.student.dto.StudentResponse;
 
 public class CreateStudentTestFactory {
 

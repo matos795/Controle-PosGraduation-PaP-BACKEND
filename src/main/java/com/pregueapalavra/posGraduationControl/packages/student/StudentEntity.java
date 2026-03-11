@@ -1,4 +1,4 @@
-package com.pregueapalavra.posGraduationControl.subject;
+package com.pregueapalavra.posGraduationControl.packages.student;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,12 +13,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "tb_subject")
+@Table(name = "tb_student")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SubjectEntity {
+public class StudentEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,4 +26,13 @@ public class SubjectEntity {
 
     @Column(length = 100, nullable = false)
     private String name;
+
+    @Column(length = 150, unique = true, nullable = false)
+    private String email;
+
+    @Column(length = 20)
+    private String phone;
+
+    @Column(length = 200)
+    private String address;
 }

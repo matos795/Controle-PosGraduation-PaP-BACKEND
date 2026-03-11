@@ -1,4 +1,4 @@
-package com.pregueapalavra.posGraduationControl.subject;
+package com.pregueapalavra.posGraduationControl.packages.subject;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

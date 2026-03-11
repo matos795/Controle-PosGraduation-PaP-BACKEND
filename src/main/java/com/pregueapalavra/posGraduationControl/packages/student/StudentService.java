@@ -1,4 +1,4 @@
-package com.pregueapalavra.posGraduationControl.student;
+package com.pregueapalavra.posGraduationControl.packages.student;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -9,10 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.pregueapalavra.posGraduationControl.exception.exceptions.DatabaseException;
 import com.pregueapalavra.posGraduationControl.exception.exceptions.ResourceNotFoundException;
 import com.pregueapalavra.posGraduationControl.exception.exceptions.student.EmailAlreadyExistsException;
-import com.pregueapalavra.posGraduationControl.student.dto.CreateStudentRequest;
-import com.pregueapalavra.posGraduationControl.student.dto.StudentResponse;
-import com.pregueapalavra.posGraduationControl.student.dto.UpdateStudentRequest;
-import com.pregueapalavra.posGraduationControl.student.mapper.StudentMapper;
+import com.pregueapalavra.posGraduationControl.packages.student.dto.CreateStudentRequest;
+import com.pregueapalavra.posGraduationControl.packages.student.dto.StudentResponse;
+import com.pregueapalavra.posGraduationControl.packages.student.dto.UpdateStudentRequest;
+import com.pregueapalavra.posGraduationControl.packages.student.mapper.StudentMapper;
 
 import lombok.RequiredArgsConstructor;
 

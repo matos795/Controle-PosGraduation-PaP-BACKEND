@@ -1,8 +1,8 @@
 package com.pregueapalavra.posGraduationControl.subjects.factory;
 
-import com.pregueapalavra.posGraduationControl.subject.SubjectEntity;
-import com.pregueapalavra.posGraduationControl.subject.dto.CreateSubjectRequest;
-import com.pregueapalavra.posGraduationControl.subject.dto.SubjectResponse;
+import com.pregueapalavra.posGraduationControl.packages.subject.SubjectEntity;
+import com.pregueapalavra.posGraduationControl.packages.subject.dto.CreateSubjectRequest;
+import com.pregueapalavra.posGraduationControl.packages.subject.dto.SubjectResponse;
 
 public class CreateSubjectTestFactory {
 

@@ -1,4 +1,4 @@
-package com.pregueapalavra.posGraduationControl.subject;
+package com.pregueapalavra.posGraduationControl.packages.subject;
 
 import java.util.List;
 
@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pregueapalavra.posGraduationControl.subject.dto.CreateSubjectRequest;
-import com.pregueapalavra.posGraduationControl.subject.dto.SubjectResponse;
-import com.pregueapalavra.posGraduationControl.subject.dto.UpdateSubjectRequest;
+import com.pregueapalavra.posGraduationControl.packages.subject.dto.CreateSubjectRequest;
+import com.pregueapalavra.posGraduationControl.packages.subject.dto.SubjectResponse;
+import com.pregueapalavra.posGraduationControl.packages.subject.dto.UpdateSubjectRequest;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

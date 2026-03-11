@@ -1,4 +1,4 @@
-package com.pregueapalavra.posGraduationControl.student.dto;
+package com.pregueapalavra.posGraduationControl.packages.student.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

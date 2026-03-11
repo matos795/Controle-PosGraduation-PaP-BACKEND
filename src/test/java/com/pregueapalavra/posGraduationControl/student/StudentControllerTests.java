@@ -32,8 +32,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pregueapalavra.posGraduationControl.exception.exceptions.DatabaseException;
 import com.pregueapalavra.posGraduationControl.exception.exceptions.ResourceNotFoundException;
 import com.pregueapalavra.posGraduationControl.exception.exceptions.student.EmailAlreadyExistsException;
-import com.pregueapalavra.posGraduationControl.student.dto.CreateStudentRequest;
-import com.pregueapalavra.posGraduationControl.student.dto.UpdateStudentRequest;
+import com.pregueapalavra.posGraduationControl.packages.student.StudentController;
+import com.pregueapalavra.posGraduationControl.packages.student.StudentService;
+import com.pregueapalavra.posGraduationControl.packages.student.dto.CreateStudentRequest;
+import com.pregueapalavra.posGraduationControl.packages.student.dto.UpdateStudentRequest;
 import com.pregueapalavra.posGraduationControl.student.factory.CreateStudentTestFactory;
 import com.pregueapalavra.posGraduationControl.student.factory.UpdateStudentTestFactory;
 
