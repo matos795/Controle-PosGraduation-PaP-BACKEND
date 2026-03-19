@@ -3,6 +3,7 @@ package com.pregueapalavra.posGraduationControl.packages.student.mapper;
 import com.pregueapalavra.posGraduationControl.packages.student.StudentEntity;
 import com.pregueapalavra.posGraduationControl.packages.student.dto.CreateStudentRequest;
 import com.pregueapalavra.posGraduationControl.packages.student.dto.StudentResponse;
+import com.pregueapalavra.posGraduationControl.packages.student.dto.StudentSummaryResponse;
 import com.pregueapalavra.posGraduationControl.packages.student.dto.UpdateStudentRequest;
 
 public class StudentMapper {
@@ -39,5 +40,11 @@ public class StudentMapper {
                 studentEntity.getEmail(),
                 studentEntity.getPhone(),
                 studentEntity.getAddress());
+    }
+
+    public static StudentSummaryResponse toSummaryResponse(StudentEntity studentEntity) {
+        return new StudentSummaryResponse(
+                studentEntity.getId(),
+                studentEntity.getName());
     }
 }

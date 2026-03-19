@@ -2,6 +2,7 @@ package com.pregueapalavra.posGraduationControl.packages.classSession.mapper;
 
 import com.pregueapalavra.posGraduationControl.packages.classSession.ClassSessionEntity;
 import com.pregueapalavra.posGraduationControl.packages.classSession.dto.ClassSessionResponse;
+import com.pregueapalavra.posGraduationControl.packages.classSession.dto.ClassSessionSummaryResponse;
 import com.pregueapalavra.posGraduationControl.packages.classSession.dto.CreateClassSessionRequest;
 import com.pregueapalavra.posGraduationControl.packages.classSession.dto.UpdateClassSessionRequest;
 import com.pregueapalavra.posGraduationControl.packages.subject.SubjectEntity;
@@ -47,5 +48,11 @@ public class ClassSessionMapper {
                 classSessionEntity.getFinalDate(),
                 TeacherMapper.toSummaryDTO(classSessionEntity.getTeacher())
                 );
+    }
+
+    public static ClassSessionSummaryResponse toSummaryResponse(ClassSessionEntity classSessionEntity) {
+        return new ClassSessionSummaryResponse(
+                classSessionEntity.getId(),
+                classSessionEntity.getTitle());
     }
 }
