@@ -36,6 +36,9 @@ public class EnrollmentService {
     private final PaymentService paymentService;
 
     public EnrollmentResponse create(CreateEnrollmentRequest request) {
+        if (request.payments() == null || request.payments().isEmpty()) {
+            throw new BusinessException("Enrollment must have at least one payment");
+        }
         StudentEntity studentEntity = studentRepository.findById(request.studentId())
                 .orElseThrow(() -> new ResourceNotFoundException("Student not found!"));
         ClassSessionEntity classSessionEntity = classSessionRepository.findById(request.classSessionId())
