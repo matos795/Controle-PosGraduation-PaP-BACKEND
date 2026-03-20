@@ -22,6 +22,7 @@ import com.pregueapalavra.posGraduationControl.packages.payment.dto.UpdatePaymen
 import com.pregueapalavra.posGraduationControl.packages.payment.enums.PaymentStatus;
 import com.pregueapalavra.posGraduationControl.packages.student.StudentEntity;
 import com.pregueapalavra.posGraduationControl.packages.student.StudentRepository;
+import com.pregueapalavra.posGraduationControl.packages.student.enums.StudentStatus;
 
 import lombok.RequiredArgsConstructor;
 
@@ -93,6 +94,9 @@ public class EnrollmentService {
                     "Cannot complete enrollment with pending payments");
         }
         enrollment.setStatus(EnrollmentStatus.COMPLETED);
+
+        checkStudentCourseCompletion(enrollment.getStudent().getId());
+
         return EnrollmentMapper.toResponse(enrollment);
     }
 
@@ -115,6 +119,30 @@ public class EnrollmentService {
                 .findFirst().orElseThrow(() -> new ResourceNotFoundException("Payment not found in this enrollment"));
         paymentService.updatePayment(payment, request);
         return EnrollmentMapper.toResponse(enrollment);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<EnrollmentSummaryResponse> getByStudent(Long studentId, Pageable pageable) {
+
+        if (!studentRepository.existsById(studentId)) {
+            throw new ResourceNotFoundException("Student not found");
+        }
+
+        Page<EnrollmentEntity> page = enrollmentRepository.findByStudentId(studentId, pageable);
+
+        return page.map(EnrollmentMapper::toSummaryResponse);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<EnrollmentSummaryResponse> getByClassSession(Long classSessionId, Pageable pageable) {
+
+        if (!classSessionRepository.existsById(classSessionId)) {
+            throw new ResourceNotFoundException("ClassSession not found");
+        }
+
+        Page<EnrollmentEntity> page = enrollmentRepository.findByClassSessionId(classSessionId, pageable);
+
+        return page.map(EnrollmentMapper::toSummaryResponse);
     }
 
     // ----------------------------------------------------------------------------
@@ -147,6 +175,23 @@ public class EnrollmentService {
             throw new BusinessException(
                     "Cannot complete enrollment with pending payments");
         }
+    }
 
+    private void checkStudentCourseCompletion(Long studentId) {
+
+        StudentEntity student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
+
+        var enrollments = enrollmentRepository.findByStudentId(studentId);
+
+        long completedSubjects = enrollments.stream()
+                .filter(e -> e.getStatus() == EnrollmentStatus.COMPLETED)
+                .map(e -> e.getClassSession().getSubject().getId())
+                .distinct()
+                .count();
+
+        if (completedSubjects >= 8) {
+            student.setStatus(StudentStatus.COMPLETED);
+        }
     }
 }

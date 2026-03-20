@@ -66,7 +66,18 @@ public class EnrollmentController {
     }
 
     @PatchMapping("/{id}/payments/{paymentId}")
-    public EnrollmentResponse updatePayment(@PathVariable Long id, @PathVariable Long paymentId, @RequestBody @Valid UpdatePaymentRequest request) {
+    public EnrollmentResponse updatePayment(@PathVariable Long id, @PathVariable Long paymentId,
+            @RequestBody @Valid UpdatePaymentRequest request) {
         return enrollmentService.updatePayment(id, paymentId, request);
+    }
+
+    @GetMapping("/student/{studentId}")
+    public Page<EnrollmentSummaryResponse> getByStudent(@PathVariable Long studentId, Pageable pageable) {
+        return enrollmentService.getByStudent(studentId, pageable);
+    }
+
+    @GetMapping("/class-session/{classSessionId}")
+    public Page<EnrollmentSummaryResponse> getByClassSession(@PathVariable Long classSessionId, Pageable pageable) {
+        return enrollmentService.getByClassSession(classSessionId, pageable);
     }
 }

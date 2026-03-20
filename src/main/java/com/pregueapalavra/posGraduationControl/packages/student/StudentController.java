@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pregueapalavra.posGraduationControl.packages.student.dto.CreateStudentRequest;
+import com.pregueapalavra.posGraduationControl.packages.student.dto.StudentProgressResponse;
 import com.pregueapalavra.posGraduationControl.packages.student.dto.StudentResponse;
 import com.pregueapalavra.posGraduationControl.packages.student.dto.UpdateStudentRequest;
 
@@ -55,5 +56,10 @@ public class StudentController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteStudent(@PathVariable Long id) {
         studentService.deleteStudent(id);
+    }
+
+    @GetMapping("/{id}/progress")
+    public StudentProgressResponse getProgress(@PathVariable Long id) {
+        return studentService.getStudentProgress(id);
     }
 }

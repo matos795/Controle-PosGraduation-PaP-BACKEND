@@ -39,7 +39,8 @@ public class StudentMapper {
                 studentEntity.getName(),
                 studentEntity.getEmail(),
                 studentEntity.getPhone(),
-                studentEntity.getAddress());
+                studentEntity.getAddress(),
+                studentEntity.getStatus());
     }
 
     public static StudentSummaryResponse toSummaryResponse(StudentEntity studentEntity) {

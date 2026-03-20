@@ -9,9 +9,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.pregueapalavra.posGraduationControl.exception.exceptions.DatabaseException;
 import com.pregueapalavra.posGraduationControl.exception.exceptions.ResourceNotFoundException;
 import com.pregueapalavra.posGraduationControl.exception.exceptions.student.EmailAlreadyExistsException;
+import com.pregueapalavra.posGraduationControl.packages.enrollment.EnrollmentRepository;
+import com.pregueapalavra.posGraduationControl.packages.enrollment.enums.EnrollmentStatus;
 import com.pregueapalavra.posGraduationControl.packages.student.dto.CreateStudentRequest;
+import com.pregueapalavra.posGraduationControl.packages.student.dto.StudentProgressResponse;
 import com.pregueapalavra.posGraduationControl.packages.student.dto.StudentResponse;
 import com.pregueapalavra.posGraduationControl.packages.student.dto.UpdateStudentRequest;
+import com.pregueapalavra.posGraduationControl.packages.student.enums.StudentStatus;
 import com.pregueapalavra.posGraduationControl.packages.student.mapper.StudentMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -23,11 +27,14 @@ public class StudentService {
 
     private final StudentRepository studentRepository;
 
+    private final EnrollmentRepository enrollmentRepository;
+
     public StudentResponse createStudent(CreateStudentRequest requestDTO) {
         if (studentRepository.existsByEmail(requestDTO.email())) {
             throw new EmailAlreadyExistsException("Email já está sendo usado!");
         }
         StudentEntity studentEntity = StudentMapper.toCreatedEntity(requestDTO);
+        studentEntity.setStatus(StudentStatus.IN_PROGRESS);
         StudentEntity savedStudent = studentRepository.save(studentEntity);
         return StudentMapper.toDTO(savedStudent);
     }
@@ -74,5 +81,30 @@ public class StudentService {
     private StudentEntity findStudentById(Long id) {
         return studentRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Student not found with id: " + id));
+    }
+
+    @Transactional(readOnly = true)
+    public StudentProgressResponse getStudentProgress(Long studentId) {
+
+        var enrollments = enrollmentRepository.findByStudentId(studentId);
+
+        long completedSubjects = enrollments.stream()
+                .filter(e -> e.getStatus() == EnrollmentStatus.COMPLETED)
+                .map(e -> e.getClassSession().getSubject().getId())
+                .distinct()
+                .count();
+
+        long totalSubjects = 8;
+
+        long remaining = totalSubjects - completedSubjects;
+
+        boolean completed = completedSubjects >= totalSubjects;
+
+        return new StudentProgressResponse(
+                studentId,
+                completedSubjects,
+                totalSubjects,
+                remaining,
+                completed);
     }
 }

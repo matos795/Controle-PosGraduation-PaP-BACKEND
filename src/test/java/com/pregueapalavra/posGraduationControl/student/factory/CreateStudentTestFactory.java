@@ -3,6 +3,7 @@ package com.pregueapalavra.posGraduationControl.student.factory;
 import com.pregueapalavra.posGraduationControl.packages.student.StudentEntity;
 import com.pregueapalavra.posGraduationControl.packages.student.dto.CreateStudentRequest;
 import com.pregueapalavra.posGraduationControl.packages.student.dto.StudentResponse;
+import com.pregueapalavra.posGraduationControl.packages.student.enums.StudentStatus;
 
 public class CreateStudentTestFactory {
 
@@ -30,7 +31,8 @@ public class CreateStudentTestFactory {
                 "João Silva",
                 "joao@email.com",
                 "11999999999",
-                "Rua A"
+                "Rua A",
+                StudentStatus.IN_PROGRESS
         );
     }
 }
