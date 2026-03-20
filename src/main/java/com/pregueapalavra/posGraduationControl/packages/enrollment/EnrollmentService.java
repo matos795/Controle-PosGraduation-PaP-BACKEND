@@ -177,7 +177,7 @@ public class EnrollmentService {
         }
     }
 
-    private void checkStudentCourseCompletion(Long studentId) {
+    public void checkStudentCourseCompletion(Long studentId) {
 
         StudentEntity student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new ResourceNotFoundException("Student not found"));

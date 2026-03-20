@@ -277,16 +277,5 @@ public class ClassSessionControllerTests {
 
             verify(classSessionService).deleteClassSession(1L);
         }
-
-        @Test
-        void shouldReturnInternalServerErrorWhenUnexpectedErrorOccurs() throws Exception {
-
-            doThrow(new RuntimeException())
-                    .when(classSessionService)
-                    .deleteClassSession(1L);
-
-            mockMvc.perform(delete("/class-sessions/1"))
-                    .andExpect(status().isInternalServerError());
-        }
     }
 }

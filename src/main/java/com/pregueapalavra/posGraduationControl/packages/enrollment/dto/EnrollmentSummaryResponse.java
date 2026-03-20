@@ -12,6 +12,6 @@ public record EnrollmentSummaryResponse(
     String studentName,
     EnrollmentType type,
     EnrollmentStatus status,
-    LocalDate enrollmenDate,
+    LocalDate enrollmentDate,
     PaymentStatus paymentStatus
 ) {}
