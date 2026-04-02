@@ -32,7 +32,8 @@ public class UpdateStudentTestFactory {
                 "alexandre@email.com",
                 "11888888888",
                 "Rua B",
-                StudentStatus.IN_PROGRESS
+                StudentStatus.IN_PROGRESS,
+                0L
         );
     }
 }

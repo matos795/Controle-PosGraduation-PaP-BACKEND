@@ -8,5 +8,6 @@ public record StudentResponse(
         String email,
         String phone,
         String address,
-        StudentStatus status
+        StudentStatus status,
+        Long enrollmentsCount
 ) {}

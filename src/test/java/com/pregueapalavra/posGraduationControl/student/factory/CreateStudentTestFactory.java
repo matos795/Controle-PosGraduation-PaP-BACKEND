@@ -32,7 +32,8 @@ public class CreateStudentTestFactory {
                 "joao@email.com",
                 "11999999999",
                 "Rua A",
-                StudentStatus.IN_PROGRESS
+                StudentStatus.IN_PROGRESS,
+                0L
         );
     }
 }

@@ -1,7 +1,12 @@
 package com.pregueapalavra.posGraduationControl.packages.student;
 
+import java.util.List;
+
+import com.pregueapalavra.posGraduationControl.packages.enrollment.EnrollmentEntity;
+import com.pregueapalavra.posGraduationControl.packages.payment.PaymentEntity;
 import com.pregueapalavra.posGraduationControl.packages.student.enums.StudentStatus;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -9,6 +14,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -43,4 +49,7 @@ public class StudentEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private StudentStatus status;
+
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<EnrollmentEntity> enrollments;
 }

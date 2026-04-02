@@ -40,7 +40,9 @@ public class StudentMapper {
                 studentEntity.getEmail(),
                 studentEntity.getPhone(),
                 studentEntity.getAddress(),
-                studentEntity.getStatus());
+                studentEntity.getStatus(),
+                studentEntity.getEnrollments() != null ? studentEntity.getEnrollments().size() : 0L
+        );
     }
 
     public static StudentSummaryResponse toSummaryResponse(StudentEntity studentEntity) {
