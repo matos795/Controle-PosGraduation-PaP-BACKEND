@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,8 +37,11 @@ public class StudentController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public Page<StudentResponse> getStudents(Pageable pageable) {
-        return studentService.getStudents(pageable);
+    public Page<StudentResponse> getStudents(
+        @RequestParam(required = false) String name,
+        @RequestParam(required = false) String status,
+        Pageable pageable) {
+        return studentService.getStudents(name, status, pageable);
     }
 
     @GetMapping("/{id}")

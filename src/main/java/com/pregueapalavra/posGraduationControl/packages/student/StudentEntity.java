@@ -3,7 +3,6 @@ package com.pregueapalavra.posGraduationControl.packages.student;
 import java.util.List;
 
 import com.pregueapalavra.posGraduationControl.packages.enrollment.EnrollmentEntity;
-import com.pregueapalavra.posGraduationControl.packages.payment.PaymentEntity;
 import com.pregueapalavra.posGraduationControl.packages.student.enums.StudentStatus;
 
 import jakarta.persistence.CascadeType;

@@ -237,7 +237,7 @@ public class StudentServiceTests {
             when(studentRepository.findAll(pageable)).thenReturn(page);
 
             // Act
-            Page<StudentResponse> response = studentService.getStudents(pageable);
+            Page<StudentResponse> response = studentService.getStudents(null, null, pageable);
 
             // Assert
             assertNotNull(response);

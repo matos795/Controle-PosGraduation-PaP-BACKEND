@@ -52,9 +52,38 @@ public class StudentService {
     }
 
     @Transactional(readOnly = true)
-    public Page<StudentResponse> getStudents(Pageable pageable) {
+    public Page<StudentResponse> getStudents(String name, String status, Pageable pageable) {
+        
+        boolean hasName = name != null && !name.isEmpty();
+        boolean hasStatus = status != null && !status.isEmpty();
+
+        if (hasName && hasStatus) {
+            StudentStatus studentStatus = toStudentStatus(status);
+            Page<StudentEntity> pageStudents = studentRepository.findByNameContainingIgnoreCaseAndStatus(name, studentStatus, pageable);
+            return pageStudents.map(StudentMapper::toDTO);
+        }
+
+        if (hasName) {
+            Page<StudentEntity> pageStudents = studentRepository.findByNameContainingIgnoreCase(name, pageable);
+            return pageStudents.map(StudentMapper::toDTO);
+        }
+
+        if (hasStatus) {
+            StudentStatus studentStatus = toStudentStatus(status);
+            Page<StudentEntity> pageStudents = studentRepository.findByStatus(studentStatus, pageable);
+            return pageStudents.map(StudentMapper::toDTO);
+        }
+        
         Page<StudentEntity> pageStudents = studentRepository.findAll(pageable);
         return pageStudents.map(StudentMapper::toDTO);
+    }
+
+    private StudentStatus toStudentStatus(String status) {
+        try {
+            return StudentStatus.valueOf(status.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new ResourceNotFoundException("Invalid status: " + status);
+        }
     }
 
     @Transactional(readOnly = true)
