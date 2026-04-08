@@ -153,7 +153,7 @@ public class StudentControllerTests {
             var response = CreateStudentTestFactory.createResponse();
             var page = new PageImpl<>(List.of(response));
 
-            when(studentService.getStudents("", "", any())).thenReturn(page);
+            when(studentService.getStudents(eq(null), eq(null), eq(null), any())).thenReturn(page);
 
             // Act & Assert
             mockMvc.perform(get("/students"))
@@ -162,7 +162,7 @@ public class StudentControllerTests {
                     .andExpect(jsonPath("$.content[0].name").value(response.name()))
                     .andExpect(jsonPath("$.totalElements").value(1));
 
-            verify(studentService).getStudents("", "", any());
+            verify(studentService).getStudents(eq(null), eq(null), eq(null), any());
         }
     }
 

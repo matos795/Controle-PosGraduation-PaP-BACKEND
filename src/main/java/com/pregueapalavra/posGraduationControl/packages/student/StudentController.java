@@ -40,8 +40,9 @@ public class StudentController {
     public Page<StudentResponse> getStudents(
         @RequestParam(required = false) String name,
         @RequestParam(required = false) String status,
+        @RequestParam(required = false) String sort,
         Pageable pageable) {
-        return studentService.getStudents(name, status, pageable);
+        return studentService.getStudents(name, status, sort, pageable);
     }
 
     @GetMapping("/{id}")
