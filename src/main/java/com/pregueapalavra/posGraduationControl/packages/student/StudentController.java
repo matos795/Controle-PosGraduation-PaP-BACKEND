@@ -1,5 +1,7 @@
 package com.pregueapalavra.posGraduationControl.packages.student;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -61,6 +63,12 @@ public class StudentController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteStudent(@PathVariable Long id) {
         studentService.deleteStudent(id);
+    }
+
+    @DeleteMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteStudents(@RequestBody List<Long> ids) {
+        studentService.deleteStudent(ids);
     }
 
     @GetMapping("/{id}/progress")

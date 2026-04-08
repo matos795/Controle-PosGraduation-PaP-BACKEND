@@ -1,5 +1,7 @@
 package com.pregueapalavra.posGraduationControl.packages.student;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,4 +17,6 @@ public interface StudentRepository extends JpaRepository<StudentEntity, Long>{
     Page<StudentEntity> findByNameContainingIgnoreCaseAndStatus(String name, StudentStatus status, Pageable pageable);
 
     boolean existsByEmail(String email);
+
+    long countByIdIn(List<Long> listId);
 }

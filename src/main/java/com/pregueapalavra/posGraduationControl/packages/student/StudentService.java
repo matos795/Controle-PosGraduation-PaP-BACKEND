@@ -1,5 +1,7 @@
 package com.pregueapalavra.posGraduationControl.packages.student;
 
+import java.util.List;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -55,7 +57,7 @@ public class StudentService {
 
     @Transactional(readOnly = true)
     public Page<StudentResponse> getStudents(String name, String status, String sort, Pageable pageable) {
-        
+
         // Parse sort parameter
         Sort sortObj = Sort.unsorted();
         if (sort != null && !sort.trim().isEmpty()) {
@@ -69,16 +71,17 @@ public class StudentService {
                 }
             }
         }
-        
+
         // Create new Pageable with sort
         Pageable pageableWithSort = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sortObj);
-        
+
         boolean hasName = name != null && !name.isEmpty();
         boolean hasStatus = status != null && !status.isEmpty();
 
         if (hasName && hasStatus) {
             StudentStatus studentStatus = toStudentStatus(status);
-            Page<StudentEntity> pageStudents = studentRepository.findByNameContainingIgnoreCaseAndStatus(name, studentStatus, pageableWithSort);
+            Page<StudentEntity> pageStudents = studentRepository.findByNameContainingIgnoreCaseAndStatus(name,
+                    studentStatus, pageableWithSort);
             return pageStudents.map(StudentMapper::toDTO);
         }
 
@@ -92,7 +95,7 @@ public class StudentService {
             Page<StudentEntity> pageStudents = studentRepository.findByStatus(studentStatus, pageableWithSort);
             return pageStudents.map(StudentMapper::toDTO);
         }
-        
+
         Page<StudentEntity> pageStudents = studentRepository.findAll(pageableWithSort);
         return pageStudents.map(StudentMapper::toDTO);
     }
@@ -121,6 +124,20 @@ public class StudentService {
             studentRepository.deleteById(id);
         } catch (DataIntegrityViolationException e) {
             throw new DatabaseException("Error deleting student with id: " + id);
+        }
+    }
+
+    public void deleteStudent(List<Long> listId) {
+        // Verify all students exist before deleting
+        long existingCount = studentRepository.countByIdIn(listId);
+        if (existingCount != listId.size()) {
+            throw new ResourceNotFoundException("One or more students not found");
+        }
+
+        try {
+            studentRepository.deleteAllById(listId);
+        } catch (DataIntegrityViolationException e) {
+            throw new DatabaseException("Error deleting students due to data integrity constraints");
         }
     }
 
