@@ -52,7 +52,8 @@ import com.pregueapalavra.posGraduationControl.packages.teacher.dto.TeacherSumma
 
         SubjectResponse subject = new SubjectResponse(
                 1L,
-                "Hermenêutica"
+                "Hermenêutica",
+                null, 0L
         );
 
         TeacherSummaryResponse teacher = new TeacherSummaryResponse(

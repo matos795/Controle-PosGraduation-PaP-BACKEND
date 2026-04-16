@@ -6,5 +6,7 @@ import jakarta.validation.constraints.Size;
 public record UpdateSubjectRequest(
     @NotBlank(message = "Name is required")
     @Size(max = 100)
-    String name
+    String name,
+    @Size(max = 255)
+    String description
 ) {}

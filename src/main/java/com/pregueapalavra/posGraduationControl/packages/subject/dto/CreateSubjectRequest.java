@@ -7,6 +7,9 @@ public record CreateSubjectRequest(
     
     @NotBlank(message = "Name is required")
     @Size(max = 100)
-    String name 
+    String name,
+    
+    @Size(max = 255)
+    String description
     
 ) {}

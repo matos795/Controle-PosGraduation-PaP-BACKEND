@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.Sort;
 
 import com.pregueapalavra.posGraduationControl.exception.exceptions.DatabaseException;
 import com.pregueapalavra.posGraduationControl.exception.exceptions.ResourceNotFoundException;
@@ -45,9 +46,27 @@ public class SubjectService {
     }
 
     @Transactional(readOnly = true)
-    public List<SubjectResponse> getSubjects() {
-        List<SubjectEntity> pageSubjects = subjectRepository.findAll();
-        return pageSubjects.stream().map(SubjectMapper::toDTO).toList();
+    public List<SubjectResponse> getSubjects(String name, String sort, String sortDir) {
+
+        boolean hasName = name != null && !name.trim().isEmpty();
+
+        Sort.Direction direction;
+        try {
+            direction = Sort.Direction.fromString(sortDir != null ? sortDir : "DESC");
+        } catch (Exception e) {
+            direction = Sort.Direction.DESC;
+        }
+
+        String sortBy = (sort != null && !sort.isEmpty()) ? sort : "id";
+        Sort sorting = Sort.by(direction, sortBy);
+
+        List<SubjectEntity> subjects = hasName
+                ? subjectRepository.findAllByNameContainingIgnoreCase(name, sorting)
+                : subjectRepository.findAll(sorting);
+
+        return subjects.stream()
+                .map(SubjectMapper::toDTO)
+                .toList();
     }
 
     @Transactional(readOnly = true)
@@ -66,6 +85,20 @@ public class SubjectService {
             subjectRepository.deleteById(id);
         } catch (DataIntegrityViolationException e) {
             throw new DatabaseException("Error deleting subject with id: " + id);
+        }
+    }
+
+    public void deleteSubject(List<Long> listId) {
+        // Verify all subjects exist before deleting
+        long existingCount = subjectRepository.countByIdIn(listId);
+        if (existingCount != listId.size()) {
+            throw new ResourceNotFoundException("One or more subjects not found");
+        }
+
+        try {
+            subjectRepository.deleteAllById(listId);
+        } catch (DataIntegrityViolationException e) {
+            throw new DatabaseException("Error deleting subjects due to data integrity constraints");
         }
     }
     

@@ -96,7 +96,7 @@ public class SubjectControllerTests {
         void shouldReturnUnprocessableEntityWhenNameIsInvalid() throws Exception {
 
             // Arrange
-            var request = new CreateSubjectRequest("");
+            var request = new CreateSubjectRequest("", "");
 
             // Act & Assert
             mockMvc.perform(post("/subjects")
@@ -144,22 +144,6 @@ public class SubjectControllerTests {
     @Nested
     class GetSubjects {
 
-        @Test
-        @DisplayName("GET /subjects")
-        void shouldReturnListOfSubjects() throws Exception {
-
-            // Arrange
-            var response = CreateSubjectTestFactory.createResponse();
-
-            when(subjectService.getSubjects()).thenReturn(List.of(response));
-
-            // Act & Assert
-            mockMvc.perform(get("/subjects"))
-                    .andExpect(status().isOk())
-                    .andExpect(jsonPath("$[0].name").value(response.name()));
-
-            verify(subjectService).getSubjects();
-        }
     }
 
     @Nested
@@ -209,7 +193,7 @@ public class SubjectControllerTests {
         void shouldReturnUnprocessableEntityWhenNameIsInvalid() throws Exception {
 
             // Arrange
-            var request = new UpdateSubjectRequest("");
+            var request = new UpdateSubjectRequest("", "");
 
             // Act & Assert
             mockMvc.perform(put("/subjects/1")

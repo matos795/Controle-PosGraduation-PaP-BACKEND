@@ -8,7 +8,9 @@ public class CreateSubjectTestFactory {
 
     public static CreateSubjectRequest createRequest() {
         return new CreateSubjectRequest(
-                "Hermenêutica Avançada");
+                "Hermenêutica Avançada",
+                null
+        );
     }
 
     public static SubjectEntity createEntity() {
@@ -21,7 +23,8 @@ public class CreateSubjectTestFactory {
     public static SubjectResponse createResponse() {
         return new SubjectResponse(
                 1L,
-                "Hermenêutica Avançada"
+                "Hermenêutica Avançada",
+                null, 0L
         );
     }
 }

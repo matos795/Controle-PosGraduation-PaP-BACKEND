@@ -10,6 +10,7 @@ public class SubjectMapper {
     public static SubjectEntity toCreatedEntity(CreateSubjectRequest requestDTO) {
         SubjectEntity subjectEntity = new SubjectEntity();
         subjectEntity.setName(requestDTO.name());
+        subjectEntity.setDescription(requestDTO.description());
         return subjectEntity;
     }
 
@@ -17,12 +18,18 @@ public class SubjectMapper {
         if(requestDTO.name() != null) {
             subjectEntity.setName(requestDTO.name());
         }
+        if(requestDTO.description() != null) {
+            subjectEntity.setDescription(requestDTO.description());
+        }
         return subjectEntity;
     }
 
     public static SubjectResponse toDTO(SubjectEntity subjectEntity) {
         return new SubjectResponse(
                 subjectEntity.getId(),
-                subjectEntity.getName());
+                subjectEntity.getName(),
+                subjectEntity.getDescription(),
+                subjectEntity.getClassSessions() != null ? subjectEntity.getClassSessions().size() : 0L
+        );
     }
 }

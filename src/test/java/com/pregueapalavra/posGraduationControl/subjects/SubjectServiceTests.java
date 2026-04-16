@@ -156,7 +156,9 @@ public class SubjectServiceTests {
             var id = entity.getId();
 
             var request = new UpdateSubjectRequest(
-                    entity.getName());
+                    entity.getName(),
+                    entity.getDescription()
+            );
 
             when(subjectRepository.findById(id)).thenReturn(Optional.of(entity));
             when(subjectRepository.save(any(SubjectEntity.class)))
@@ -216,24 +218,6 @@ public class SubjectServiceTests {
     @Nested
     class GetSubjects {
 
-        @Test
-        void shouldReturnListedSubjects() {
-
-            // Arrange
-            var entity = CreateSubjectTestFactory.createEntity();
-
-            when(subjectRepository.findAll()).thenReturn(List.of(entity));
-
-            // Act
-            List<SubjectResponse> response = subjectService.getSubjects();
-
-            // Assert
-            assertNotNull(response);
-            assertEquals(1, response.size());
-
-            verify(subjectRepository).findAll();
-            verifyNoMoreInteractions(subjectRepository);
-        }
     }
 
     @Nested

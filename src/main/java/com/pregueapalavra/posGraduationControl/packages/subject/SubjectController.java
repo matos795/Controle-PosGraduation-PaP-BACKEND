@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,8 +36,10 @@ public class SubjectController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<SubjectResponse> getSubjects() {
-        return subjectService.getSubjects();
+    public List<SubjectResponse> getSubjects(@RequestParam(required = false) String name, 
+                                             @RequestParam(required = false) String sort, 
+                                             @RequestParam(required = false) String sortDir) {
+        return subjectService.getSubjects(name, sort, sortDir);
     }
 
     @GetMapping("/{id}")
@@ -55,5 +58,11 @@ public class SubjectController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteSubject(@PathVariable Long id) {
         subjectService.deleteSubject(id);
+    }
+
+    @DeleteMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteSubjects(@RequestBody List<Long> ids) {
+        subjectService.deleteSubject(ids);
     }
 }

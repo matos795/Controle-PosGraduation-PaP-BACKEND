@@ -8,13 +8,16 @@ public class UpdateSubjectTestFactory {
 
     public static UpdateSubjectRequest updateRequest() {
         return new UpdateSubjectRequest(
-                "Hermenêutica Atualizada");
+                "Hermenêutica Atualizada",
+                "Descrição da Hermenêutica Atualizada"
+        );
     }
 
     public static SubjectEntity updateEntity() {
         SubjectEntity entity = new SubjectEntity();
         entity.setId(1L);
         entity.setName("Hermenêutica Avançada");
+        entity.setDescription("Descrição da Hermenêutica Avançada");
 
         return entity;
     }
@@ -22,7 +25,8 @@ public class UpdateSubjectTestFactory {
     public static SubjectResponse updateResponse() {
         return new SubjectResponse(
                 1L,
-                "Hermenêutica Atualizada"
+                "Hermenêutica Atualizada",
+                "Descrição da Hermenêutica Atualizada", 0L
         );
     }
 }

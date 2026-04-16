@@ -45,7 +45,8 @@ public class CreateClassSessionTestFactory {
     public static ClassSessionResponse createResponse() {
         SubjectResponse subject = new SubjectResponse(
                 1L,
-                "Hermenêutica"
+                "Hermenêutica",
+                null, 0L
         );
 
         TeacherSummaryResponse teacher = new TeacherSummaryResponse(
