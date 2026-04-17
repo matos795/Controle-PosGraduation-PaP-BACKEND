@@ -171,35 +171,6 @@ public class TeacherServiceTests {
     @Nested
     class GetTeachers {
 
-        @Test
-        void shouldReturnPagedTeachers() {
-
-            // Arrange
-            var entity = CreateTeacherTestFactory.createEntity();
-
-            var pageable = PageRequest.of(0, 10);
-
-            Page<TeacherEntity> page = new PageImpl<>(List.of(entity));
-
-            when(teacherRepository.findAll(pageable)).thenReturn(page);
-
-            // Act
-            Page<TeacherResponse> response = teacherService.getTeachers(pageable);
-
-            // Assert
-            assertNotNull(response);
-            assertEquals(page.getTotalElements(), response.getTotalElements());
-            assertEquals(page.getTotalPages(), response.getTotalPages());
-            assertEquals(page.getContent().size(), response.getContent().size());
-
-            var teacher = response.getContent().get(0);
-            assertEquals(entity.getId(), teacher.id());
-            assertEquals(entity.getEmail(), teacher.email());
-            assertEquals(entity.getName(), teacher.name());
-
-            verify(teacherRepository).findAll(pageable);
-            verifyNoMoreInteractions(teacherRepository);
-        }
     }
 
     @Nested

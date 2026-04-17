@@ -1,15 +1,13 @@
 package com.pregueapalavra.posGraduationControl.packages.teacher;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.pregueapalavra.posGraduationControl.packages.classSession.ClassSessionEntity;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @Table(name = "tb_teacher")
@@ -34,4 +32,7 @@ public class TeacherEntity {
 
     @Column(length = 200)
     private String address;
+
+    @OneToMany(mappedBy = "teacher")
+    private List<ClassSessionEntity> classSessions;
 }

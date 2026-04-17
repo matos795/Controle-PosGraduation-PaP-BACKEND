@@ -47,7 +47,8 @@ public class TeacherMapper {
                 teacherEntity.getName(),
                 teacherEntity.getEmail(),
                 teacherEntity.getPhone(),
-                teacherEntity.getAddress());
+                teacherEntity.getAddress(),
+                teacherEntity.getClassSessions() != null ? teacherEntity.getClassSessions().size() : 0L);
     }
 
     public static TeacherSummaryResponse toSummaryDTO(TeacherEntity teacherEntity) {

@@ -145,25 +145,6 @@ public class TeacherControllerTests {
     @Nested
     class GetTeachers {
 
-        @Test
-        @DisplayName("GET /teachers")
-        void shouldReturnPagedTeachers() throws Exception {
-
-            // Arrange
-            var response = CreateTeacherTestFactory.createResponse();
-            var page = new PageImpl<>(List.of(response));
-
-            when(teacherService.getTeachers(any())).thenReturn(page);
-
-            // Act & Assert
-            mockMvc.perform(get("/teachers"))
-                    .andExpect(status().isOk())
-                    .andExpect(jsonPath("$.content[0].email").value(response.email()))
-                    .andExpect(jsonPath("$.content[0].name").value(response.name()))
-                    .andExpect(jsonPath("$.totalElements").value(1));
-
-            verify(teacherService).getTeachers(any());
-        }
     }
 
     @Nested

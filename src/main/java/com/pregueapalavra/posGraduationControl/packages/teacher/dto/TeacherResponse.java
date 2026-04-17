@@ -5,7 +5,8 @@ public record TeacherResponse(
     String name,
     String email,
     String phone,
-    String address
+    String address,
+    Long classSessionCount
 ) {
 
 }

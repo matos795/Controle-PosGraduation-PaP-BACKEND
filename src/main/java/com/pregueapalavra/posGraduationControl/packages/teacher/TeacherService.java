@@ -2,7 +2,9 @@ package com.pregueapalavra.posGraduationControl.packages.teacher;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +17,8 @@ import com.pregueapalavra.posGraduationControl.packages.teacher.dto.UpdateTeache
 import com.pregueapalavra.posGraduationControl.packages.teacher.mapper.TeacherMapper;
 
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -45,8 +49,32 @@ public class TeacherService {
     }
 
     @Transactional(readOnly = true)
-    public Page<TeacherResponse> getTeachers(Pageable pageable) {
-        Page<TeacherEntity> pageTeachers = teacherRepository.findAll(pageable);
+    public Page<TeacherResponse> getTeachers(String name, String sort, Pageable pageable) {
+
+        // Parse sort parameter
+        Sort sortObj = Sort.unsorted();
+        if (sort != null && !sort.trim().isEmpty()) {
+            String[] parts = sort.split(",");
+            if (parts.length == 2) {
+                try {
+                    Sort.Direction direction = Sort.Direction.fromString(parts[1].trim().toUpperCase());
+                    sortObj = Sort.by(direction, parts[0].trim());
+                } catch (IllegalArgumentException e) {
+                    // Invalid sort, ignore and use unsorted
+                }
+            }
+        }
+
+        // Create new Pageable with sort
+        Pageable pageableWithSort = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sortObj);
+        boolean hasName = name != null && !name.isEmpty();
+
+        if (hasName) {
+            Page<TeacherEntity> page = teacherRepository.findByNameContainingIgnoreCase(name, pageableWithSort);
+            return page.map(TeacherMapper::toDTO);
+        }
+
+        Page<TeacherEntity> pageTeachers = teacherRepository.findAll(pageableWithSort);
         return pageTeachers.map(TeacherMapper::toDTO);
     }
 
@@ -66,6 +94,20 @@ public class TeacherService {
             teacherRepository.deleteById(id);
         } catch (DataIntegrityViolationException e) {
             throw new DatabaseException("Error deleting teacher with id: " + id);
+        }
+    }
+
+    public void deleteTeacher(List<Long> listId) {
+        // Verify all teachers exist before deleting
+        long existingCount = teacherRepository.countByIdIn(listId);
+        if (existingCount != listId.size()) {
+            throw new ResourceNotFoundException("One or more teachers not found");
+        }
+
+        try {
+            teacherRepository.deleteAllById(listId);
+        } catch (DataIntegrityViolationException e) {
+            throw new DatabaseException("Error deleting teachers due to data integrity constraints");
         }
     }
 
