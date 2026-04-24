@@ -1,10 +1,12 @@
 package com.pregueapalavra.posGraduationControl.packages.classSession;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,11 +52,18 @@ public class ClassSessionService {
     public ClassSessionResponse updateClassSession(Long id, UpdateClassSessionRequest requestDTO) {
 
         TeacherEntity teacher = null;
+        SubjectEntity subject = null;
 
         if (requestDTO.teacherId() != null) {
             teacher = teacherRepository
                     .findById(requestDTO.teacherId())
                     .orElseThrow(() -> new ResourceNotFoundException("Teacher not found"));
+        }
+
+        if (requestDTO.subjectId() != null) {
+            subject = subjectRepository
+                    .findById(requestDTO.subjectId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Subject not found"));
         }
 
         ClassSessionEntity classSessionEntity = findClassSessionById(id);
@@ -69,15 +78,44 @@ public class ClassSessionService {
 
         validateDates(initial, end);
 
-        ClassSessionMapper.toUpdateEntity(classSessionEntity, requestDTO, teacher);
+        ClassSessionMapper.toUpdateEntity(classSessionEntity, requestDTO, teacher, subject);
         ClassSessionEntity updatedClassSession = classSessionRepository.save(classSessionEntity);
         return ClassSessionMapper.toDTO(updatedClassSession);
     }
 
     @Transactional(readOnly = true)
-    public Page<ClassSessionResponse> getClassSessions(Pageable pageable) {
-        Page<ClassSessionEntity> pageClassSessions = classSessionRepository.findAll(pageable);
-        return pageClassSessions.map(ClassSessionMapper::toDTO);
+    public Page<ClassSessionResponse> getClassSessions(
+            String name, Long subjectId, LocalDate start, LocalDate end, Integer year, Pageable pageable) {
+
+        Specification<ClassSessionEntity> spec = Specification.unrestricted();
+
+        if (name != null && !name.isBlank()) {
+            spec = spec.and((root, query, cb) ->
+                    cb.like(cb.lower(root.get("title")), "%" + name.toLowerCase() + "%"));
+        }
+
+        if (subjectId != null) {
+            spec = spec.and((root, query, cb) ->
+                    cb.equal(root.get("subject").get("id"), subjectId));
+        }
+
+        if (start != null) {
+            spec = spec.and((root, query, cb) ->
+                    cb.greaterThanOrEqualTo(root.get("initialDate"), start));
+        }
+
+        if (end != null) {
+            spec = spec.and((root, query, cb) ->
+                    cb.lessThanOrEqualTo(root.get("initialDate"), end));
+        }
+
+        if (year != null) {
+            spec = spec.and((root, query, cb) ->
+                    cb.equal(cb.function("year", Integer.class, root.get("initialDate")), year));
+        }
+
+        return classSessionRepository.findAll(spec, pageable)
+                .map(ClassSessionMapper::toDTO);
     }
 
     @Transactional(readOnly = true)
@@ -96,6 +134,20 @@ public class ClassSessionService {
             classSessionRepository.deleteById(id);
         } catch (DataIntegrityViolationException e) {
             throw new DatabaseException("Error deleting class session with id: " + id);
+        }
+    }
+
+    public void deleteClassSession(List<Long> listId) {
+        // Verify all class sessions exist before deleting
+        long existingCount = classSessionRepository.countByIdIn(listId);
+        if (existingCount != listId.size()) {
+            throw new ResourceNotFoundException("One or more class sessions not found");
+        }
+
+        try {
+            classSessionRepository.deleteAllById(listId);
+        } catch (DataIntegrityViolationException e) {
+            throw new DatabaseException("Error deleting class sessions due to data integrity constraints");
         }
     }
 

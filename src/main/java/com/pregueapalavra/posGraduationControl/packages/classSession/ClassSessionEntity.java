@@ -1,18 +1,13 @@
 package com.pregueapalavra.posGraduationControl.packages.classSession;
 
 import java.time.LocalDate;
+import java.util.List;
 
+import com.pregueapalavra.posGraduationControl.packages.enrollment.EnrollmentEntity;
 import com.pregueapalavra.posGraduationControl.packages.subject.SubjectEntity;
 import com.pregueapalavra.posGraduationControl.packages.teacher.TeacherEntity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -46,4 +41,7 @@ public class ClassSessionEntity {
     @ManyToOne
     @JoinColumn(name = "teacher_id", nullable = false)
     private TeacherEntity teacher;
+
+    @OneToMany(mappedBy = "classSession", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<EnrollmentEntity> enrollments;
 }

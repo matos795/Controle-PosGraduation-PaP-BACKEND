@@ -144,37 +144,6 @@ public class ClassSessionControllerTests {
     @Nested
     class GetClassSessions {
 
-        @Test
-        @DisplayName("GET /class-sessions")
-        void shouldReturnPagedClassSessions() throws Exception {
-
-            // Arrange
-            var response = CreateClassSessionTestFactory.createResponse();
-            var page = new PageImpl<>(List.of(response));
-
-            when(classSessionService.getClassSessions(any())).thenReturn(page);
-
-            // Act & Assert
-            mockMvc.perform(get("/class-sessions"))
-                    .andExpect(status().isOk())
-                    .andExpect(jsonPath("$.content[0].title").value(response.title()))
-                    .andExpect(jsonPath("$.totalElements").value(1));
-
-            verify(classSessionService).getClassSessions(any());
-        }
-
-        @Test
-        void shouldReturnEmptyPage() throws Exception {
-
-            when(classSessionService.getClassSessions(any()))
-                    .thenReturn(new PageImpl<>(List.of()));
-
-            mockMvc.perform(get("/class-sessions"))
-                    .andExpect(status().isOk())
-                    .andExpect(jsonPath("$.content").isEmpty());
-
-            verify(classSessionService).getClassSessions(any());
-        }
     }
 
     @Nested

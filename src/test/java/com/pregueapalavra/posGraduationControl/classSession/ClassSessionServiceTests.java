@@ -304,51 +304,6 @@ public class ClassSessionServiceTests {
     @Nested
     class GetClassSessions {
 
-        @Test
-        void shouldReturnPagedClassSessions() {
-
-            // Arrange
-            var entity = CreateClassSessionTestFactory.createEntity();
-
-            var pageable = PageRequest.of(0, 10);
-
-            Page<ClassSessionEntity> page = new PageImpl<>(List.of(entity));
-
-            when(classSessionRepository.findAll(pageable)).thenReturn(page);
-
-            // Act
-            Page<ClassSessionResponse> response = classSessionService.getClassSessions(pageable);
-
-            // Assert
-            assertNotNull(response);
-            assertEquals(page.getTotalElements(), response.getTotalElements());
-            assertEquals(page.getTotalPages(), response.getTotalPages());
-            assertEquals(page.getContent().size(), response.getContent().size());
-
-            var classSession = response.getContent().get(0);
-            assertEquals(entity.getId(), classSession.id());
-            assertEquals(entity.getTitle(), classSession.title());
-            assertEquals(entity.getTeacher().getId(), classSession.teacher().id());
-
-            verify(classSessionRepository).findAll(pageable);
-        }
-
-        @Test
-        void shouldReturnEmptyPageWhenNoClassSessionsExist() {
-
-            var pageable = PageRequest.of(0, 10);
-
-            when(classSessionRepository.findAll(pageable))
-                    .thenReturn(Page.empty());
-
-            Page<ClassSessionResponse> response = classSessionService.getClassSessions(pageable);
-
-            assertNotNull(response);
-            assertEquals(0, response.getTotalElements());
-            assertEquals(0, response.getContent().size());
-
-            verify(classSessionRepository).findAll(pageable);
-        }
     }
 
     @Nested

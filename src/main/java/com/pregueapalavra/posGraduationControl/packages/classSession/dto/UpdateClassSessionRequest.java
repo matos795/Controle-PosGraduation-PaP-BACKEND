@@ -10,5 +10,6 @@ public record UpdateClassSessionRequest(
     String title,
     LocalDate initialDate,
     LocalDate finalDate,
-    Long teacherId
+    Long teacherId,
+    Long subjectId
 ) {}

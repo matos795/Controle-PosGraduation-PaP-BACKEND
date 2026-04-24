@@ -2,16 +2,9 @@ package com.pregueapalavra.posGraduationControl.packages.classSession;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.pregueapalavra.posGraduationControl.packages.classSession.dto.ClassSessionResponse;
 import com.pregueapalavra.posGraduationControl.packages.classSession.dto.CreateClassSessionRequest;
@@ -19,6 +12,9 @@ import com.pregueapalavra.posGraduationControl.packages.classSession.dto.UpdateC
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping("/class-sessions")
@@ -35,8 +31,14 @@ public class ClassSessionController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public Page<ClassSessionResponse> getClassSessions(Pageable pageable) {
-        return classSessionService.getClassSessions(pageable);
+    public Page<ClassSessionResponse> getClassSessions(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) Long subjectId,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+            @RequestParam(required = false) Integer year,
+            Pageable pageable) {
+        return classSessionService.getClassSessions(name, subjectId, startDate, endDate, year, pageable);
     }
 
     @GetMapping("/{id}")
@@ -55,5 +57,11 @@ public class ClassSessionController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteClassSession(@PathVariable Long id) {
         classSessionService.deleteClassSession(id);
+    }
+
+    @DeleteMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteTeachers(@RequestBody List<Long> ids) {
+        classSessionService.deleteClassSession(ids);
     }
 }

@@ -3,7 +3,10 @@ package com.pregueapalavra.posGraduationControl.packages.subject.mapper;
 import com.pregueapalavra.posGraduationControl.packages.subject.SubjectEntity;
 import com.pregueapalavra.posGraduationControl.packages.subject.dto.CreateSubjectRequest;
 import com.pregueapalavra.posGraduationControl.packages.subject.dto.SubjectResponse;
+import com.pregueapalavra.posGraduationControl.packages.subject.dto.SubjectSummaryResponse;
 import com.pregueapalavra.posGraduationControl.packages.subject.dto.UpdateSubjectRequest;
+import com.pregueapalavra.posGraduationControl.packages.teacher.TeacherEntity;
+import com.pregueapalavra.posGraduationControl.packages.teacher.dto.TeacherSummaryResponse;
 
 public class SubjectMapper {
 
@@ -31,5 +34,11 @@ public class SubjectMapper {
                 subjectEntity.getDescription(),
                 subjectEntity.getClassSessions() != null ? subjectEntity.getClassSessions().size() : 0L
         );
+    }
+
+    public static SubjectSummaryResponse toSummaryDTO(SubjectEntity subjectEntity) {
+        return new SubjectSummaryResponse(
+                subjectEntity.getId(),
+                subjectEntity.getName());
     }
 }

@@ -22,7 +22,7 @@ public class ClassSessionMapper {
         return classSessionEntity;
     }
 
-    public static ClassSessionEntity toUpdateEntity(ClassSessionEntity classSessionEntity, UpdateClassSessionRequest requestDTO, TeacherEntity teacher) {
+    public static ClassSessionEntity toUpdateEntity(ClassSessionEntity classSessionEntity, UpdateClassSessionRequest requestDTO, TeacherEntity teacher, SubjectEntity subject) {
         if(requestDTO.title() != null) {
             classSessionEntity.setTitle(requestDTO.title());
         }
@@ -35,7 +35,9 @@ public class ClassSessionMapper {
         if(requestDTO.teacherId() != null) {
             classSessionEntity.setTeacher(teacher);
         }
-
+        if(requestDTO.subjectId() != null) {
+            classSessionEntity.setSubject(subject);
+        }
         return classSessionEntity;
     }
 
@@ -43,10 +45,11 @@ public class ClassSessionMapper {
         return new ClassSessionResponse(
                 classSessionEntity.getId(),
                 classSessionEntity.getTitle(),
-                SubjectMapper.toDTO(classSessionEntity.getSubject()),
+                SubjectMapper.toSummaryDTO(classSessionEntity.getSubject()),
                 classSessionEntity.getInitialDate(),
                 classSessionEntity.getFinalDate(),
-                TeacherMapper.toSummaryDTO(classSessionEntity.getTeacher())
+                TeacherMapper.toSummaryDTO(classSessionEntity.getTeacher()),
+                classSessionEntity.getEnrollments() != null ? classSessionEntity.getEnrollments().size() : 0L
                 );
     }
 
